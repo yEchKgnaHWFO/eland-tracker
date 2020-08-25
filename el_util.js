@@ -361,9 +361,18 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             this.adCampaignTag = getAdCampaign();
             this.adTermTag = getAdTerm();
             this.adContentTag = getAdContent();
-            this.os = getOS(navigator.userAgent);
-            this.browser = getBrowser(navigator.userAgent);
-            this.platform = getPlatform();
+
+            var nopd = sessionStorage.getItem("nopd");
+            if(nopd === "1"){
+                this.os = "Other";
+                this.browser = "Other";
+                this.platform = "Other";
+            }
+            else {
+                this.os = getOS(navigator.userAgent);
+                this.browser = getBrowser(navigator.userAgent);
+                this.platform = getPlatform();
+            }
             this.subDomain = jsonObject.subFolder || getSubDomain(this.url, this.subfolderDepth);
             this.session = jsonObject.session || "";
 
@@ -507,14 +516,6 @@ ElandTracker.sendData = function (trackingJson) {
     var iframeElement = this.getIframe(iframeUrl);
     return document.body.appendChild(iframeElement);
 
-};
-ElandTracker.flushData = function () {
-    setTimeout(function () {
-        'use strict';
-        var urlValue = ElandTracker.apiGateways.elandReceiverDataFlush;
-        var iframeElement = this.getIframe(urlValue);
-        return document.body.appendChild(iframeElement);
-    }, 1000);
 };
 ElandTracker.sendError = function (message) {
     'use strict';
