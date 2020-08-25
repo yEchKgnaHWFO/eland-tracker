@@ -495,7 +495,8 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             iframeUrl += ElandTracker.getFingerPrintV4 + "&";
         }
         //清除所有 sessionstorage
-        sessionStorage.clear();
+        sessionStorage.removeItem("nopd");
+        sessionStorage.removeItem("usefp");
         return iframeUrl;
     };
     return getIframeUrl(jsonObject);
