@@ -364,11 +364,10 @@ ElandTracker.getIframeUrl = function (jsonObject) {
 
             var nopd = sessionStorage.getItem("nopd");
             if(nopd === "1"){
-                this.os = "Other";
-                this.browser = "Other";
-                this.platform = "Other";
-            }
-            else {
+                this.os = "Others";
+                this.browser = "Others";
+                this.platform = "Others";
+            } else {
                 this.os = getOS(navigator.userAgent);
                 this.browser = getBrowser(navigator.userAgent);
                 this.platform = getPlatform();
@@ -495,6 +494,8 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             }
             iframeUrl += ElandTracker.getFingerPrintV4 + "&";
         }
+        //清除所有 sessionstorage
+        sessionStorage.clear();
         return iframeUrl;
     };
     return getIframeUrl(jsonObject);
@@ -512,7 +513,6 @@ ElandTracker.getIframe = function (urlValue) {
 };
 ElandTracker.sendData = function (trackingJson) {
     var iframeUrl = ElandTracker.getIframeUrl(trackingJson);
-    console.log(iframeUrl);
     var iframeElement = this.getIframe(iframeUrl);
     return document.body.appendChild(iframeElement);
 
