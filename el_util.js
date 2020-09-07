@@ -370,7 +370,7 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             } else {
                 this.os = getOS(navigator.userAgent);
                 this.browser = getBrowser(navigator.userAgent);
-                this.platform = getPlatform();
+                this.platform = getPlatform(navigator.userAgent);
             }
             this.subDomain = jsonObject.subFolder || getSubDomain(this.url, this.subfolderDepth);
             this.session = jsonObject.session || "";
