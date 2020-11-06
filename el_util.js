@@ -525,8 +525,8 @@ ElandTracker.getIframe = function (urlValue) {
     iframe_data.style.display = "none";
     iframe_data.setAttribute("alt", "elandTracker");
     iframe_data.setAttribute("title", "elandTracker");
-    if(typeof ElandTracker.callback==="function"){
-        iframe_data.setAttribute("onload", "ElandTracker.callback()")
+    if(typeof ElandTracker.cbfunc==="function"){
+        iframe_data.setAttribute("onload", "ElandTracker.cbfunc()")
     }
     return iframe_data;
 };
