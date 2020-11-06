@@ -135,8 +135,23 @@ ElandTracker.getIframeUrl = function (jsonObject) {
         else if (userAgent.match(/Opera|opr/i)) {
             return "Opera";
         }
-        else if (userAgent.match(/SamsungBrowser|FB|Instagram|\sline|MiuiBrowser|Baidu|bidubrowser|MicroMessenger/i)
-            || userAgent.match(/wechat|Telegram|Slack|WhatsApp|KAKAOTALK/i)) {
+        else if(userAgent.match(/SamsungBrowser/i)){
+            return "Samsung";
+        }
+        else if(userAgent.match(/\sline/i)){
+            return "Line";
+        }
+        else if(userAgent.match(/FBSV|FB_IAB/i)){
+            return "Facebook";
+        }
+        else if(userAgent.match(/Instagram/i)){
+            return "Instagram";
+        }
+        else if(userAgent.match(/wechat|MicroMessenger.*NetType.*Language/i)){
+            return "Wechat";
+        }
+        else if (userAgent.match(/MiuiBrowser|Baidu|bidubrowser|MicroMessenger/i)
+            || userAgent.match(/Telegram|Slack|WhatsApp|KAKAOTALK/i)) {
             return "Others";
         }
         else if (userAgent.match(/mobile Safari/i) && userAgent.match(/android/i) && userAgent.match(/version/i)) {
@@ -510,13 +525,15 @@ ElandTracker.getIframe = function (urlValue) {
     iframe_data.style.display = "none";
     iframe_data.setAttribute("alt", "elandTracker");
     iframe_data.setAttribute("title", "elandTracker");
+    if(typeof ElandTracker.callback==="function"){
+        iframe_data.setAttribute("onload", "ElandTracker.callback()")
+    }
     return iframe_data;
 };
 ElandTracker.sendData = function (trackingJson) {
     var iframeUrl = ElandTracker.getIframeUrl(trackingJson);
-    var iframeElement = this.getIframe(iframeUrl);
-    return document.body.appendChild(iframeElement);
-
+    var iframeElement = ElandTracker.getIframe(iframeUrl);
+    document.body.appendChild(iframeElement);
 };
 ElandTracker.sendError = function (message) {
     'use strict';
@@ -549,10 +566,13 @@ ElandTracker.getClickForceIframeUrl = function (trackingJson) {
         } else {
             return "Others";
         }
-    }
+    };
 
     function getBrowser(userAgent) {
-        if (userAgent.match(/Edge|edg/i)) {
+        if (userAgent === undefined) {
+            return "";
+        }
+        else if (userAgent.match(/Edge|edg/i)) {
             return "Edge";
         }
         else if (userAgent.match(/Dalvik/i)) {
@@ -573,7 +593,7 @@ ElandTracker.getClickForceIframeUrl = function (trackingJson) {
         else if (userAgent.match(/BlackBerry/i)) {
             return "BlackBerry";
         }
-        else if (userAgent.match(/UCBrowser/i)) {
+        else if (userAgent.match(/uc\s?browser|\subrowser/i)) {
             return "UCBrowser";
         }
         else if (userAgent.match(/Vivaldi/i)) {
@@ -582,14 +602,28 @@ ElandTracker.getClickForceIframeUrl = function (trackingJson) {
         else if (userAgent.match(/Opera|opr/i)) {
             return "Opera";
         }
-        else if (userAgent.match(/Chrome/i) && userAgent.match(/mobile Safari/i) && userAgent.match(/SamsungBrowser|FB|Instagram/i)) {
+        else if(userAgent.match(/SamsungBrowser/i)){
+            return "Samsung";
+        }
+        else if(userAgent.match(/\sline/i)){
+            return "Line";
+        }
+        else if(userAgent.match(/FBSV|FB_IAB/i)){
+            return "Facebook";
+        }
+        else if(userAgent.match(/Instagram/i)){
+            return "Instagram";
+        }
+        else if(userAgent.match(/wechat|MicroMessenger.*NetType.*Language/i)){
+            return "Wechat";
+        }
+        else if (userAgent.match(/MiuiBrowser|Baidu|bidubrowser|MicroMessenger/i)
+            || userAgent.match(/Telegram|Slack|WhatsApp|KAKAOTALK/i)) {
             return "Others";
         }
         else if (userAgent.match(/mobile Safari/i) && userAgent.match(/android/i) && userAgent.match(/version/i)) {
             if (userAgent.match(/chrome/i)) {
                 return "Chrome";
-            } else if (userAgent.match(/Baidu/i)) {
-                return "Others";
             } else {
                 return "Android"
             }
@@ -597,7 +631,7 @@ ElandTracker.getClickForceIframeUrl = function (trackingJson) {
         else if (userAgent.match(/Chrome/i) && userAgent.match(/Safari/i)) {
             return "Chrome";
         }
-        else if (userAgent.match(/Firefox/i)) {
+        else if (userAgent.match(/Firefox|FxiOS/i)) {
             return "Firefox";
         }
         else if (userAgent.match(/Opera Mini/i)) {
@@ -615,7 +649,7 @@ ElandTracker.getClickForceIframeUrl = function (trackingJson) {
         else {
             return "Others";
         }
-    }
+    };
 
     var isMobile = {
         Android: function () {
