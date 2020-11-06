@@ -1,3 +1,0 @@
-var ElandTracker=ElandTracker||{},eltkCount=0;
-ElandTracker.Track=function(b,a){try{if("undefined"===typeof ElandTracker.isAllReady)if(50<eltkCount){if("function"===typeof a)throw Error("cannot load eland js");}else eltkCount++,setTimeout(ElandTracker.Track,100,b,a);else{var c=document.createElement("script"),e=document.domain;["chinatimes","www.funtime.com.tw"].forEach(function(a){-1!==e.indexOf(a)&&sessionStorage.setItem("usefp","0")});c.src="//dmp.eland-tech.com/dmpreceiver/el_load.min.js";var d=document.getElementsByTagName("script")[0];d.parentNode.insertBefore(c,
-d);ElandTracker.cbfunc=a;ElandTracker.startTrack(b)}}catch(f){console.error(f),"function"===typeof a&&a()}};
