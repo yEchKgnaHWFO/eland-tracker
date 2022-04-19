@@ -519,6 +519,7 @@ ElandTracker.getIframeUrl = function (jsonObject) {
 ElandTracker.getIframe = function (urlValue) {
     var iframe_data = document.createElement('iframe');
     iframe_data.setAttribute("src", urlValue);
+    iframe_data.setAttribute("id", "elandTracker");
     iframe_data.style.width = 0 + "px";
     iframe_data.style.height = 0 + "px";
     iframe_data.style.border = 0 + "px";

@@ -1,7 +1,7 @@
 var ElandTracker = ElandTracker || {};
 
 ElandTracker.options = {
-    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@3.5/",
+    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@3.7/",
     "elandReceiver": "//dmp.eland-tech.com/dmpreceiver/",
     "useJsdelivrToLoadJS": true,
     "useFingerprint": false
@@ -31,11 +31,11 @@ ElandTracker.ready = function () {
 
 ElandTracker.isAllReady = function () {
     if (ElandTracker.useFingerprint){
-        return !!(document.body
+        return (document.body
             && ElandTracker.getFingerPrintV4
             && ElandTracker.sendData)
     } else{
-        return !!(document.body
+        return (document.body
             && ElandTracker.sendData)
     }
 };
