@@ -509,6 +509,16 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             }
             iframeUrl += ElandTracker.getFingerPrintV4 + "&";
         }
+        //super8客製
+        if(jsonObject.p1){
+            iframeUrl += "&p1=" + jsonObject.p1;
+        }
+        if(jsonObject.p2){
+            iframeUrl += "&p2=" + jsonObject.p2;
+        }
+        if(jsonObject.p3){
+            iframeUrl += "&p3=" + jsonObject.p3;
+        }
         //清除所有 sessionstorage
         sessionStorage.removeItem("nopd");
         sessionStorage.removeItem("usefp");
