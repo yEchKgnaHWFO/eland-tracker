@@ -1,7 +1,7 @@
 var ElandTracker = ElandTracker || {};
 
 ElandTracker.options = {
-    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@3.9/",
+    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.0/",
     "elandReceiver": "//dmp.eland-tech.com/dmpreceiver/",
     "useJsdelivrToLoadJS": true,
     "useFingerprint": false
@@ -61,7 +61,7 @@ ElandTracker.loadjsfile = function (filename) {
     if (ElandTracker.options.useJsdelivrToLoadJS) {
         fileref.setAttribute("src", ElandTracker.options.elandTracker + filename);
         fileref.setAttribute("onerror", "ElandTracker.onErrorLoadJsFromCDN()");
-        fileref.defer = true; 
+        fileref.defer = true;
     } else {
         fileref.setAttribute("src", ElandTracker.options.elandReceiver + filename);
         fileref.defer = true;

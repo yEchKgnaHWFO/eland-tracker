@@ -509,6 +509,10 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             }
             iframeUrl += ElandTracker.getFingerPrintV4 + "&";
         }
+        if (ElandTracker.getComponentHashMap) {
+            iframeUrl += "&fp_time=";
+            iframeUrl += ElandTracker.getComponentHashMap + "&";
+        }
         //super8客製
         if(jsonObject.p1){
             iframeUrl += "&p1=" + jsonObject.p1;
