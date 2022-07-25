@@ -413,6 +413,14 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             iframeUrl += "&subDomain=" + this.subDomain;
             iframeUrl += "&trackType=" + this.trackType;
 
+            if (jsonObject.sourceID) {
+                this.sourceID = jsonObject.sourceID;
+                iframeUrl += "&source_id=" + jsonObject.sourceID;
+            }
+            if (jsonObject.deviceID) {
+                this.deviceID = jsonObject.deviceID;
+                iframeUrl += "&device_id=" + this.deviceID;
+            }
             if (this.adSrTag !== "") {
                 iframeUrl += "&adSrTag=" + this.adSrTag;
             }
@@ -508,10 +516,6 @@ ElandTracker.getIframeUrl = function (jsonObject) {
                 iframeUrl += "&fp2=";
             }
             iframeUrl += ElandTracker.getFingerPrintV4 + "&";
-        }
-        if (ElandTracker.getComponentHashMap) {
-            iframeUrl += "&fp_time=";
-            iframeUrl += ElandTracker.getComponentHashMap + "&";
         }
         //super8客製
         if(jsonObject.p1){
