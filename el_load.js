@@ -1,7 +1,7 @@
 var ElandTracker = ElandTracker || {};
 
 ElandTracker.options = {
-    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.3/",
+    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.4/",
     "elandReceiver": "//dmp.eland-tech.com/dmpreceiver/",
     "useJsdelivrToLoadJS": true,
     "useFingerprint": false
@@ -30,11 +30,11 @@ ElandTracker.ready = function () {
 };
 
 ElandTracker.isAllReady = function () {
-    if (ElandTracker.useFingerprint){
+    if (ElandTracker.useFingerprint) {
         return (document.body
             && ElandTracker.getFingerPrintV4
             && ElandTracker.sendData)
-    } else{
+    } else {
         return (document.body
             && ElandTracker.sendData)
     }
@@ -88,7 +88,7 @@ ElandTracker.check = function (trackingJson, type) {
     if (typeof trackingJson.retriedTimes === "undefined") {
         trackingJson.retriedTimes = 1;
     } else if (trackingJson.retriedTimes > 100) {
-        if(typeof ElandTracker.cbfunc==="function"){
+        if (typeof ElandTracker.cbfunc === "function") {
             ElandTracker.cbfunc();
         }
         return;
@@ -99,7 +99,7 @@ ElandTracker.check = function (trackingJson, type) {
     if (!ElandTracker.isAllReady()) {
         ElandTracker.delay(ElandTracker.check, trackingJson);
         setTimeout(ElandTracker.ready, 100);
-    } else if(type === "cf"){
+    } else if (type === "cf") {
         ElandTracker.ClickforceSendData(trackingJson)
     } else {
         ElandTracker.sendData(trackingJson);
@@ -115,7 +115,7 @@ ElandTracker.trackInit = function () {
     ElandTracker.loadjsfile("el_util.min.js");
 };
 
-ElandTracker.startTrack = function(dataJson) {
+ElandTracker.startTrack = function (dataJson) {
     ElandTracker.trackInit();
     ElandTracker.check(dataJson, "el");
 }
@@ -125,6 +125,7 @@ ElandTracker.ClickforceTrack = function (dataJson) {
     ElandTracker.trackInit();
     ElandTracker.check(dataJson, "cf");
 }
+
 function dmpSr_view_log(dmpSr, sp_variable, memberId) {
     'use strict';
     var dataJson = {
@@ -136,6 +137,7 @@ function dmpSr_view_log(dmpSr, sp_variable, memberId) {
 
     ElandTracker.ClickforceTrack(dataJson);
 }
+
 function dmpSr_click_log(dmpSr, sp_variable, memberId) {
     'use strict';
 
@@ -148,14 +150,16 @@ function dmpSr_click_log(dmpSr, sp_variable, memberId) {
 
     ElandTracker.ClickforceTrack(dataJson);
 }
-function stfpjs(newUrl,zif){
-    setTimeout(function(){
-        if(typeof(ElandTracker.getFingerPrintV4) == 'function'){
-            newUrl += "&fp=" + ElandTracker.getFingerPrintV4 ;
+
+function stfpjs(newUrl, zif) {
+    setTimeout(function () {
+        if (typeof (ElandTracker.getFingerPrintV4) == 'function') {
+            newUrl += "&fp=" + ElandTracker.getFingerPrintV4;
         }
-        document.getElementById(zif).contentDocument.getElementById("cfzfsc").src=newUrl;
+        document.getElementById(zif).contentDocument.getElementById("cfzfsc").src = newUrl;
     }, 1200);
 }
+
 // 啟動cookie transfer接口，沒有啟動會不交換cookie接口
 function cookie_mapping(target_url) {
     var t = "//dmp.eland-tech.com/dmpreceiver/cookie_transfer.jsp?target=" + target_url;
