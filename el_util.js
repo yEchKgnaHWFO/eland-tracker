@@ -891,7 +891,8 @@ function triggerGoogleAds() {
     // 觸發 page_view 事件
     gtag('event', 'page_view', {
         'user_id': edmpUuid,
-        'client_id': edmpUuid
+        'client_id': edmpUuid,
+        'send_to': 'AW-10965005594'
     });
 }
 
@@ -922,7 +923,7 @@ function loadFacebookPixelScript(callback) {
     fbq('init', '640155001270959', {
         'external_id': edmpUuid
     });
-    fbq('track', 'PageView');
+    fbq('trackSingle', 'PageView');
     if (typeof callback === 'function') {
         callback();
     }
