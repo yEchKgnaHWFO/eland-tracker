@@ -836,7 +836,7 @@ var fbpCookieValue = "";
 fbpCookieValue = getCookieValue("_fbp");
 var domain = document.domain;
 //"test-api.peopleview.com.tw",
-var blackList = [ "ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw", "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw", "volkswagen.com.tw", "nestlebaby.com.tw", "chailease.com.tw", "taishinbank.com.tw", "zztaitung.com", "ebank.megabank.com.tw", "iqueen.com.tw", "poyabuy.com.tw", "blueway-jeans.com", "bioderma-naos.com.tw", "m2.com.tw", "mart.family.com.tw", "drmay.com.tw", "beldora.com.tw", "so-nice.com.tw", "niceioi.com.tw", "shop.cosmed.com.tw", "fbshop.com.tw", "vincentsworld.com.tw", "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com", "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw"]
+var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw", "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw", "volkswagen.com.tw", "nestlebaby.com.tw", "chailease.com.tw", "taishinbank.com.tw", "zztaitung.com", "ebank.megabank.com.tw", "iqueen.com.tw", "poyabuy.com.tw", "blueway-jeans.com", "bioderma-naos.com.tw", "m2.com.tw", "mart.family.com.tw", "drmay.com.tw", "beldora.com.tw", "so-nice.com.tw", "niceioi.com.tw", "shop.cosmed.com.tw", "fbshop.com.tw", "vincentsworld.com.tw", "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com", "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw"]
 var isBlacklisted = blackList.some(function (v) {
     return domain.includes(v);
 });
@@ -867,40 +867,41 @@ if (!isBlacklisted) {
                 };
             });
     }
+
     //end getElandId
 }
 
 //google tag
 function triggerGoogleAds() {
-    // 加載 Google Tag Manager
+    // 加載 Google Tag Manager,id=AW-10965005594
     var script = document.createElement('script');
-    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-10965005594";
+    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-10965005594&l=dataLayer91APP";
     script.async = true;
     document.head.appendChild(script);
     // 初始化 dataLayer
-    window.dataLayer = window.dataLayer || [];
+    window.dataLayer91APP = window.dataLayer91APP || [];
 
     // 定義 gtag 函式
-    function gtag() {
-        dataLayer.push(arguments);
+    function gtag91APP() {
+        dataLayer91APP.push(arguments);
     }
 
     // 執行 gtag 配置
-    gtag('js', new Date());
-    gtag('config', 'AW-10965005594');
+    gtag91APP('js', new Date());
+    gtag91APP('config', 'AW-10965005594')
     // 觸發 page_view 事件
-    gtag('event', 'page_view', {
-        'user_id': edmpUuid,
-        'client_id': edmpUuid
-    });
+    gtag91APP('event', 'page_view',
+        {
+            'user_id': edmpUuid,
+            'client_id': edmpUuid
+        });
 }
 
 //End Google tag
 
 //meta Pixel
 function loadFacebookPixelScript(callback) {
-    createScriptAndMeta();
-    var Meta = function (f, b, e, v, n, t, s) {
+    var Meta = !function (f, b, e, v, n, t, s) {
         if (f.fbq) return;
         n = f.fbq = function () {
             n.callMethod ?
@@ -919,20 +920,11 @@ function loadFacebookPixelScript(callback) {
     }(window, document, 'script',
         'https://connect.facebook.net/en_US/fbevents.js');
 
-    fbq('init', '640155001270959', {
-        'external_id': edmpUuid
-    });
-    fbq('track', 'PageView');
+    fbq('init', '640155001270959');
+    fbq('trackSingle', '640155001270959', 'PageView', {'external_id': edmpUuid});
     if (typeof callback === 'function') {
         callback();
     }
-}
-
-function createScriptAndMeta() {
-    var sNew = document.createElement("script");
-    var s0 = document.getElementsByTagName('script')[0];
-    sNew.src = "//www.facebook.com/tr?id=640155001270959&ev=PageView&noscript=1";
-    s0.parentNode.insertBefore(sNew, s0);
 }
 
 //meta Pixel end
