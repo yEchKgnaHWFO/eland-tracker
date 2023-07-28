@@ -846,7 +846,9 @@ if (!isBlacklisted) {
     getEdmpUuid().then(function (result) {
         edmpUuid = result.edmpUuid;
         triggerGoogleAds();
+        triggerGoogleAdsFuntime();
         loadFacebookPixelScript();
+        loadFacebookPixelScriptFuntime();
     });
 
     //getElandId
@@ -897,6 +899,31 @@ function triggerGoogleAds() {
         });
 }
 
+function triggerGoogleAdsFuntime() {
+    // 加載 Google Tag Manager,id=AW-1002649313,funtime
+    var script = document.createElement('script');
+    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-1002649313&l=dataLayerFuntime";
+    script.async = true;
+    document.head.appendChild(script);
+    // 初始化 dataLayer
+    window.dataLayerFuntime = window.dataLayerFuntime || [];
+
+    // 定義 gtag 函式
+    function gtagFuntime() {
+        dataLayerFuntime.push(arguments);
+    }
+
+    // 執行 gtag 配置
+    gtagFuntime('js', new Date());
+    gtagFuntime('config', 'AW-1002649313')
+    // 觸發 page_view 事件
+    gtagFuntime('event', 'page_view',
+        {
+            'user_id': edmpUuid,
+            'client_id': edmpUuid
+        });
+}
+
 //End Google tag
 
 //meta Pixel
@@ -926,6 +953,34 @@ function loadFacebookPixelScript(callback) {
         callback();
     }
 }
+
+function loadFacebookPixelScriptFuntime(callback) {
+    var Meta = !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '1905757936321278');
+    fbq('trackSingle', '1905757936321278', 'PageView', {'external_id': edmpUuid});
+    if (typeof callback === 'function') {
+        callback();
+    }
+}
+
 
 //meta Pixel end
 function getCookieValue(cookieName) {
