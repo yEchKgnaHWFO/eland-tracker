@@ -845,9 +845,9 @@ if (!isBlacklisted) {
     //異步執行，將meta/ga放入getEdpUUid內
     getEdmpUuid().then(function (result) {
         edmpUuid = result.edmpUuid;
-        triggerGoogleAds();
+        // triggerGoogleAds();
         triggerGoogleAdsFuntime();
-        loadFacebookPixelScript();
+        // loadFacebookPixelScript();
         loadFacebookPixelScriptFuntime();
     });
 
