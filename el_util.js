@@ -836,7 +836,8 @@ var fbpCookieValue = "";
 fbpCookieValue = getCookieValue("_fbp");
 var domain = document.domain;
 //"test-api.peopleview.com.tw",
-var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw", "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw", "volkswagen.com.tw", "nestlebaby.com.tw", "chailease.com.tw", "taishinbank.com.tw", "zztaitung.com", "ebank.megabank.com.tw", "iqueen.com.tw", "poyabuy.com.tw", "blueway-jeans.com", "bioderma-naos.com.tw", "m2.com.tw", "mart.family.com.tw", "drmay.com.tw", "beldora.com.tw", "so-nice.com.tw", "niceioi.com.tw", "shop.cosmed.com.tw", "fbshop.com.tw", "vincentsworld.com.tw", "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com", "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw"]
+var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw", "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw", "volkswagen.com.tw", "nestlebaby.com.tw", "chailease.com.tw", "taishinbank.com.tw", "zztaitung.com", "ebank.megabank.com.tw", "iqueen.com.tw", "poyabuy.com.tw", "blueway-jeans.com", "bioderma-naos.com.tw", "m2.com.tw", "mart.family.com.tw", "drmay.com.tw", "beldora.com.tw", "so-nice.com.tw", "niceioi.com.tw", "shop.cosmed.com.tw", "fbshop.com.tw", "vincentsworld.com.tw", "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com", "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw",
+    "beautywa.tw","armarpot.com","mollifix.com","eurohaus.com.tw"]
 var isBlacklisted = blackList.some(function (v) {
     return domain.includes(v);
 });
