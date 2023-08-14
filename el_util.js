@@ -852,7 +852,7 @@ if (!isBlacklisted) {
     //異步執行，將meta/ga放入getEdpUUid內
     getEdmpUuid().then(function (result) {
         edmpUuid = result.edmpUuid;
-        googleAdsConversion();
+        googleAdsPageView();
         metaPixelPageView();
         googleAdsPageViewFunTime();
         metaPixelPageViewFunTime();
@@ -882,7 +882,7 @@ if (!isBlacklisted) {
 }
 
 //google tag
-function googleAdsConversion() {
+function googleAdsPageView() {
     // 加載 Google Tag Manager,id=AW-10965005594
     var script = document.createElement('script');
     script.src = "https://www.googletagmanager.com/gtag/js?id=AW-10965005594&l=dataLayerDMP";
@@ -900,13 +900,11 @@ function googleAdsConversion() {
     gtagDMP('js', new Date());
     gtagDMP('config', 'AW-10965005594')
     // 觸發 page_view 事件
-    gtagDMP('event', 'conversion',
+    gtagDMP('event', 'PageView',
         {
-            'send_to': 'AW-10965005594/vqM4CPm377sYEJrqwuwo',
+            'send_to': 'AW-10965005594',
             'user_id': edmpUuid,
-            'client_id': edmpUuid,
-            'value': 1.0,
-            'currency': 'TWD'
+            'client_id': edmpUuid
         });
 }
 
@@ -960,7 +958,7 @@ function metaPixelPageView(callback) {
 
 
     fbq('init', 640155001270959, {'external_id': edmpUuid});
-    fbq('trackSingle','640155001270959','PageView');
+    fbq('trackSingle', '640155001270959', 'PageView');
 
 
     if (typeof callback === 'function') {
@@ -990,7 +988,7 @@ function metaPixelPageViewFunTime(callback) {
 
 
     fbq('init', 1905757936321278, {'external_id': edmpUuid});
-    fbq('trackSingle','1905757936321278','PageView');
+    fbq('trackSingle', '1905757936321278', 'PageView');
 
     if (typeof callback === 'function') {
         callback();
