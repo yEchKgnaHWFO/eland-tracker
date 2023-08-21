@@ -856,7 +856,7 @@ if (!isBlacklisted) {
         metaPixelPageView();
         googleAdsPageViewFunTime();
         metaPixelPageViewFunTime();
-
+        googleAdsPageViewEland();
     });
 
     //getElandId
@@ -933,6 +933,31 @@ function googleAdsPageViewFunTime() {
         });
 }
 
+function googleAdsPageViewEland() {
+    // 加載 Google Tag Manager,id=AW-1002649313,FunTime
+    var script = document.createElement('script');
+    script.src = "https://www.googletagmanager.com/gtag/js?id=AW-10837221747&l=dataLayerEland";
+    script.async = true;
+    document.head.appendChild(script);
+    // 初始化 dataLayer
+    window.dataLayerEland = window.dataLayerEland || [];
+
+    // 定義 gtag 函式
+    function gtagFunTime() {
+        dataLayerEland.push(arguments);
+    }
+
+    // 執行 gtag 配置
+    gtagFunTime('js', new Date());
+    gtagFunTime('config', 'AW-10837221747')
+    // 觸發 page_view 事件
+    gtagFunTime('event', 'page_view',
+        {
+            'user_id': edmpUuid,
+            'client_id': edmpUuid
+        });
+}
+
 //End Google tag
 
 //meta Pixel
@@ -994,6 +1019,7 @@ function metaPixelPageViewFunTime(callback) {
         callback();
     }
 }
+
 
 
 //meta Pixel end

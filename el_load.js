@@ -1,7 +1,7 @@
 var ElandTracker = ElandTracker || {};
 
 ElandTracker.options = {
-    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.51/",
+    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.52/",
     "elandReceiver": "//dmp.eland-tech.com/dmpreceiver/",
     "useJsdelivrToLoadJS": true,
     "useFingerprint": false
