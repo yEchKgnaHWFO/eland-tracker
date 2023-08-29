@@ -843,7 +843,7 @@ var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov
     "beldora.com.tw", "so-nice.com.tw", "niceioi.com.tw", "shop.cosmed.com.tw", "fbshop.com.tw", "vincentsworld.com.tw",
     "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com",
     "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw",
-    "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com"]
+    "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com","saime.com","homeshop.taipei"]
 var isBlacklisted = blackList.some(function (v) {
     return domain.includes(v);
 });
