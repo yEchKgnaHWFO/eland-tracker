@@ -835,7 +835,7 @@ ElandTracker.ClickforceSendData = function (trackingJson) {
 var fbpCookieValue = "";
 fbpCookieValue = getCookieValue("_fbp");
 var domain = document.domain;
-//"test-api.peopleview.com.tw",
+
 var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw",
     "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw",
     "volkswagen.com.tw", "nestlebaby.com.tw", "chailease.com.tw", "taishinbank.com.tw", "zztaitung.com", "ebank.megabank.com.tw",
@@ -843,7 +843,8 @@ var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov
     "beldora.com.tw", "so-nice.com.tw", "niceioi.com.tw", "shop.cosmed.com.tw", "fbshop.com.tw", "vincentsworld.com.tw",
     "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com",
     "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw",
-    "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com","saime.com","homeshop.taipei"]
+    "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com","saime.com","homeshop.taipei",
+    "soloneshop.com.tw","easyshop.com.tw"]
 var isBlacklisted = blackList.some(function (v) {
     return domain.includes(v);
 });
@@ -857,6 +858,7 @@ if (!isBlacklisted) {
         googleAdsPageViewFunTime();
         metaPixelPageViewFunTime();
         googleAdsPageViewEland();
+        metaPixelPageViewEland();
     });
 
     //getElandId
@@ -1020,6 +1022,34 @@ function metaPixelPageViewFunTime(callback) {
     }
 }
 
+function metaPixelPageViewEland(callback) {
+    var MetaPixelEland = !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+
+    fbq('init', 110966102104942, {'external_id': edmpUuid});
+    fbq('trackSingle', '110966102104942', 'PageView');
+
+    if (typeof callback === 'function') {
+        callback();
+    }
+}
 
 
 //meta Pixel end
