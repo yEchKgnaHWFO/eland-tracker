@@ -528,6 +528,9 @@ ElandTracker.getIframeUrl = function (jsonObject) {
                 iframeUrl += "&fp3T=" +this.ElandTracker.getFingerPrintTime ;
             }
         }
+        if(ElandTracker.getFingerPrint2Time){
+            iframeUrl += "&fp2T=" +this.ElandTracker.getFingerPrint2Time ;
+        }
         //清除所有 sessionstorage
         sessionStorage.removeItem("nopd");
         sessionStorage.removeItem("usefp");
