@@ -517,6 +517,17 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             iframeUrl += "&p3=" + jsonObject.p3;
         }
         iframeUrl += "&fbp=" + fbpCookieValue;
+        if (ElandTracker.getFingerPrint_3_4_1) {
+            iframeUrl += "&fp3=" +this.ElandTracker.getFingerPrint_3_4_1 ;
+            var cookieValue = "fingerPrint_3_4_1=" + ElandTracker.getFingerPrint_3_4_1;
+            var expirationDate = new Date();
+            expirationDate.setDate(expirationDate.getDate() + 365);
+            cookieValue += "; expires=" + expirationDate.toUTCString();
+            document.cookie = cookieValue;
+            if(ElandTracker.getFingerPrintTime){
+                iframeUrl += "&fp3T=" +this.ElandTracker.getFingerPrintTime ;
+            }
+        }
         //清除所有 sessionstorage
         sessionStorage.removeItem("nopd");
         sessionStorage.removeItem("usefp");
@@ -823,7 +834,9 @@ ElandTracker.getClickForceIframeUrl = function (trackingJson) {
             iframeUrl += "&fp2=";
         }
         iframeUrl += ElandTracker.getFingerPrintV4 + "&";
+
     }
+
     return iframeUrl
 };
 ElandTracker.ClickforceSendData = function (trackingJson) {
@@ -843,8 +856,8 @@ var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov
     "beldora.com.tw", "so-nice.com.tw", "niceioi.com.tw", "shop.cosmed.com.tw", "fbshop.com.tw", "vincentsworld.com.tw",
     "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com",
     "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw",
-    "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com","saime.com","homeshop.taipei",
-    "soloneshop.com.tw","easyshop.com.tw"]
+    "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com", "saime.com", "homeshop.taipei",
+    "soloneshop.com.tw", "easyshop.com.tw"]
 var isBlacklisted = blackList.some(function (v) {
     return domain.includes(v);
 });

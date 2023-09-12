@@ -1,7 +1,7 @@
 var ElandTracker = ElandTracker || {};
 
 ElandTracker.options = {
-    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.54/",
+    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.6/",
     "elandReceiver": "//dmp.eland-tech.com/dmpreceiver/",
     "useJsdelivrToLoadJS": true,
     "useFingerprint": false
@@ -29,10 +29,31 @@ ElandTracker.ready = function () {
     }
 };
 
+fingerPrint_3_4_1Cookie = getCookieValue("fingerPrint_3_4_1");
+console.log("fingerPrint_3_4_1Cookie = " + fingerPrint_3_4_1Cookie)
+
+function getCookieValue(cookieName) {
+    var cookieValue = "";
+    var cookies = document.cookie.split(";"); // 將所有的Cookie拆分為陣列
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim(); // 去除前後空格
+        // 檢查Cookie名稱是否匹配
+        if (cookie.indexOf(cookieName + "=") === 0) {
+            // 獲取Cookie的值
+            cookieValue = cookie.substring(cookieName.length + 1);
+            break;
+        }
+    }
+    // 返回Cookie的值
+    return cookieValue;
+}
+
 ElandTracker.isAllReady = function () {
     if (ElandTracker.useFingerprint) {
         return (document.body
             && ElandTracker.getFingerPrintV4
+            && ElandTracker.getFingerPrint_3_4_1
             && ElandTracker.sendData)
     } else {
         return (document.body
@@ -46,6 +67,10 @@ ElandTracker.onErrorLoadJsFromCDN = function () {
     ElandTracker.options.useJsdelivrToLoadJS = false;
     if (!ElandTracker.getFingerPrintV4) {
         ElandTracker.loadjsfile("el_fingerprint.min.js");
+    }
+    if (!ElandTracker.getFingerPrint_3_4_1) {
+        if (!fingerPrint_3_4_1Cookie || fingerPrint_3_4_1Cookie == "")
+            ElandTracker.loadjsfile("el_fp_test.min.js");
     }
     if (!ElandTracker.SendData) {
         ElandTracker.loadjsfile("el_util.min.js");
@@ -75,6 +100,11 @@ ElandTracker.loadjsfile = function (filename) {
             break;
         case 'el_util.min.js':
             if (!ElandTracker.SendData) {
+                document.getElementsByTagName("head")[0].appendChild(fileref);
+            }
+            break;
+        case 'el_fp_test.js':
+            if (!ElandTracker.getFingerPrint_3_4_1) {
                 document.getElementsByTagName("head")[0].appendChild(fileref);
             }
             break;
@@ -110,6 +140,10 @@ ElandTracker.trackInit = function () {
     var usefp = sessionStorage.getItem("usefp");
     if (usefp !== "0") {
         ElandTracker.useFingerprint = true;
+        if (!ElandTracker.getFingerPrint_3_4_1) {
+            if (!fingerPrint_3_4_1Cookie || fingerPrint_3_4_1Cookie == "") //正式會拔掉
+                ElandTracker.loadjsfile("el_fp_test.min.js");
+        }
         ElandTracker.loadjsfile("el_fingerprint.min.js");
     }
     ElandTracker.loadjsfile("el_util.min.js");
