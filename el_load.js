@@ -123,8 +123,6 @@ ElandTracker.check = function (trackingJson, type) {
     }
 };
 let randomValue = Math.floor(Math.random() * 100);
-randomValue=1;
-console.log("randomValue: " + randomValue)
 ElandTracker.trackInit = function () {
     var usefp = sessionStorage.getItem("usefp");
     if (usefp !== "0") {
