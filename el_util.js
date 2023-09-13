@@ -517,19 +517,15 @@ ElandTracker.getIframeUrl = function (jsonObject) {
             iframeUrl += "&p3=" + jsonObject.p3;
         }
         iframeUrl += "&fbp=" + fbpCookieValue;
+
         if (ElandTracker.getFingerPrint_3_4_1) {
-            iframeUrl += "&fp3=" +this.ElandTracker.getFingerPrint_3_4_1 ;
-            var cookieValue = "fingerPrint_3_4_1=" + ElandTracker.getFingerPrint_3_4_1;
-            var expirationDate = new Date();
-            expirationDate.setDate(expirationDate.getDate() + 365);
-            cookieValue += "; expires=" + expirationDate.toUTCString();
-            document.cookie = cookieValue;
-            if(ElandTracker.getFingerPrintTime){
-                iframeUrl += "&fp3T=" +this.ElandTracker.getFingerPrintTime ;
+            iframeUrl += "&fp3=" + this.ElandTracker.getFingerPrint_3_4_1;
+            if (ElandTracker.getFingerPrintTime) {
+                iframeUrl += "&fp3T=" + this.ElandTracker.getFingerPrintTime;
             }
         }
-        if(ElandTracker.getFingerPrint2Time){
-            iframeUrl += "&fp2T=" +this.ElandTracker.getFingerPrint2Time ;
+        if (ElandTracker.getFingerPrint2Time) {
+            iframeUrl += "&fp2T=" + this.ElandTracker.getFingerPrint2Time;
         }
         //清除所有 sessionstorage
         sessionStorage.removeItem("nopd");
@@ -860,7 +856,7 @@ var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov
     "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com",
     "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw",
     "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com", "saime.com", "homeshop.taipei",
-    "soloneshop.com.tw", "easyshop.com.tw"]
+    "soloneshop.com.tw", "easyshop.com.tw", "id-az.com.tw"]
 var isBlacklisted = blackList.some(function (v) {
     return domain.includes(v);
 });

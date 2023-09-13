@@ -29,31 +29,18 @@ ElandTracker.ready = function () {
     }
 };
 
-fingerPrint_3_4_1Cookie = getCookieValue("fingerPrint_3_4_1");
-console.log("fingerPrint_3_4_1Cookie = " + fingerPrint_3_4_1Cookie)
-
-function getCookieValue(cookieName) {
-    var cookieValue = "";
-    var cookies = document.cookie.split(";"); // 將所有的Cookie拆分為陣列
-
-    for (var i = 0; i < cookies.length; i++) {
-        var cookie = cookies[i].trim(); // 去除前後空格
-        // 檢查Cookie名稱是否匹配
-        if (cookie.indexOf(cookieName + "=") === 0) {
-            // 獲取Cookie的值
-            cookieValue = cookie.substring(cookieName.length + 1);
-            break;
-        }
-    }
-    // 返回Cookie的值
-    return cookieValue;
-}
-
 ElandTracker.isAllReady = function () {
     if (ElandTracker.useFingerprint) {
+        if (randomValue === 1){
+            return (document.body
+                && ElandTracker.getFingerPrintV4
+                && ElandTracker.getFingerPrint2Time
+                && ElandTracker.getFingerPrint_3_4_1
+                && ElandTracker.sendData)
+        }
         return (document.body
             && ElandTracker.getFingerPrintV4
-            && ElandTracker.getFingerPrint_3_4_1
+            && ElandTracker.getFingerPrint2Time
             && ElandTracker.sendData)
     } else {
         return (document.body
@@ -69,13 +56,13 @@ ElandTracker.onErrorLoadJsFromCDN = function () {
         ElandTracker.loadjsfile("el_fingerprint.min.js");
     }
     if (!ElandTracker.getFingerPrint_3_4_1) {
-        if (!fingerPrint_3_4_1Cookie || fingerPrint_3_4_1Cookie == "")
-            ElandTracker.loadjsfile("el_fp_test.min.js");
+        ElandTracker.loadjsfile("el_fp_test.min.js");
     }
     if (!ElandTracker.SendData) {
         ElandTracker.loadjsfile("el_util.min.js");
     }
 };
+
 
 ElandTracker.loadjsfile = function (filename) {
     'use strict';
@@ -135,14 +122,17 @@ ElandTracker.check = function (trackingJson, type) {
         ElandTracker.sendData(trackingJson);
     }
 };
-
+let randomValue = Math.floor(Math.random() * 100);
+randomValue=1;
+console.log("randomValue: " + randomValue)
 ElandTracker.trackInit = function () {
     var usefp = sessionStorage.getItem("usefp");
     if (usefp !== "0") {
         ElandTracker.useFingerprint = true;
         if (!ElandTracker.getFingerPrint_3_4_1) {
-            if (!fingerPrint_3_4_1Cookie || fingerPrint_3_4_1Cookie == "") //正式會拔掉
+            if (randomValue === 1) {//隨機1%的機率進FingerPrint3 正式會拔掉
                 ElandTracker.loadjsfile("el_fp_test.min.js");
+            }
         }
         ElandTracker.loadjsfile("el_fingerprint.min.js");
     }
