@@ -1518,8 +1518,8 @@
 (function () {
     if (window.requestIdleCallback) {
         requestIdleCallback(function () {
+            const startTime = performance.now();
             Fingerprint2.get(function (components) {
-                const startTime = performance.now();
                 var values = components.map(function (component) {
                     return component.value
                 })
@@ -1532,8 +1532,8 @@
         })
     } else {
         setTimeout(function () {
+            const startTime = performance.now();
             Fingerprint2.get(function (components) {
-                const startTime = performance.now();
                 var values = components.map(function (component) {
                     return component.value
                 })
