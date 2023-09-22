@@ -843,11 +843,8 @@ ElandTracker.ClickforceSendData = function (trackingJson) {
     return document.body.appendChild(iframeElement);
 }
 
-function sendMetaGooglePageView(allowGAMeta, fbpCookieValue) {
-    // var fbpCookieValue = "";
-    // fbpCookieValue = getCookieValue("_fbp");
+function sendMetaGooglePageView(allowGAMeta) {
     var domain = document.domain;
-
     var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw",
         "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw",
         "volkswagen.com.tw", "nestlebaby.com.tw", "chailease.com.tw", "taishinbank.com.tw", "zztaitung.com", "ebank.megabank.com.tw",
@@ -866,12 +863,13 @@ function sendMetaGooglePageView(allowGAMeta, fbpCookieValue) {
         //異步執行，將meta/ga放入getEdpUUid內
         getEdmpUuid().then(function (result) {
             edmpUuid = result.edmpUuid;
-            googleAdsPageView();
-            metaPixelPageView();
-            googleAdsPageViewFunTime();
-            metaPixelPageViewFunTime();
-            googleAdsPageViewEland();
-            metaPixelPageViewEland();
+            googleAdsPageView('AW-10965005594'); //91App
+            googleAdsPageView('AW-1002649313'); //FunTime
+            googleAdsPageView('AW-10837221747'); //eland
+            metaPixelPageView(677954962557395); //partner
+            metaPixelPageView(1905757936321278); //FunTime
+            metaPixelPageView(640155001270959); //91App
+            metaPixelPageView(110966102104942); //eland
         });
 
         //getElandId
@@ -892,14 +890,15 @@ function sendMetaGooglePageView(allowGAMeta, fbpCookieValue) {
                     };
                 });
         }
+
         //end getElandId
     }
 
-//google tag
-    function googleAdsPageView() {
+//google tag start
+    function googleAdsPageView(id) {
         // 加載 Google Tag Manager,id=AW-10965005594
         var script = document.createElement('script');
-        script.src = "https://www.googletagmanager.com/gtag/js?id=AW-10965005594&l=dataLayerDMP";
+        script.src = "https://www.googletagmanager.com/gtag/js?id=" + id + "&l=dataLayerDMP";
         script.async = true;
         document.head.appendChild(script);
         // 初始化 dataLayer
@@ -912,61 +911,11 @@ function sendMetaGooglePageView(allowGAMeta, fbpCookieValue) {
 
         // 執行 gtag 配置
         gtagDMP('js', new Date());
-        gtagDMP('config', 'AW-10965005594')
+        gtagDMP('config', id)
         // 觸發 page_view 事件
         gtagDMP('event', 'PageView',
             {
-                'send_to': 'AW-10965005594',
-                'user_id': edmpUuid,
-                'client_id': edmpUuid
-            });
-    }
-
-    function googleAdsPageViewFunTime() {
-        // 加載 Google Tag Manager,id=AW-1002649313,FunTime
-        var script = document.createElement('script');
-        script.src = "https://www.googletagmanager.com/gtag/js?id=AW-1002649313&l=dataLayerFuntime";
-        script.async = true;
-        document.head.appendChild(script);
-        // 初始化 dataLayer
-        window.dataLayerFuntime = window.dataLayerFuntime || [];
-
-        // 定義 gtag 函式
-        function gtagFunTime() {
-            dataLayerFuntime.push(arguments);
-        }
-
-        // 執行 gtag 配置
-        gtagFunTime('js', new Date());
-        gtagFunTime('config', 'AW-1002649313')
-        // 觸發 page_view 事件
-        gtagFunTime('event', 'page_view',
-            {
-                'user_id': edmpUuid,
-                'client_id': edmpUuid
-            });
-    }
-
-    function googleAdsPageViewEland() {
-        // 加載 Google Tag Manager,id=AW-1002649313,FunTime
-        var script = document.createElement('script');
-        script.src = "https://www.googletagmanager.com/gtag/js?id=AW-10837221747&l=dataLayerEland";
-        script.async = true;
-        document.head.appendChild(script);
-        // 初始化 dataLayer
-        window.dataLayerEland = window.dataLayerEland || [];
-
-        // 定義 gtag 函式
-        function gtagFunTime() {
-            dataLayerEland.push(arguments);
-        }
-
-        // 執行 gtag 配置
-        gtagFunTime('js', new Date());
-        gtagFunTime('config', 'AW-10837221747')
-        // 觸發 page_view 事件
-        gtagFunTime('event', 'page_view',
-            {
+                'send_to': id,
                 'user_id': edmpUuid,
                 'client_id': edmpUuid
             });
@@ -974,67 +923,8 @@ function sendMetaGooglePageView(allowGAMeta, fbpCookieValue) {
 
 //End Google tag
 
-//meta Pixel
-    function metaPixelPageView(callback) {
-        var MetaPixel = !function (f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-
-
-        fbq('init', 640155001270959, {'external_id': edmpUuid});
-        fbq('trackSingle', '640155001270959', 'PageView');
-
-
-        if (typeof callback === 'function') {
-            callback();
-        }
-    }
-
-    function metaPixelPageViewFunTime(callback) {
-        var MetaPixelFunTime = !function (f, b, e, v, n, t, s) {
-            if (f.fbq) return;
-            n = f.fbq = function () {
-                n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-            };
-            if (!f._fbq) f._fbq = n;
-            n.push = n;
-            n.loaded = !0;
-            n.version = '2.0';
-            n.queue = [];
-            t = b.createElement(e);
-            t.async = !0;
-            t.src = v;
-            s = b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t, s)
-        }(window, document, 'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-
-
-        fbq('init', 1905757936321278, {'external_id': edmpUuid});
-        fbq('trackSingle', '1905757936321278', 'PageView');
-
-        if (typeof callback === 'function') {
-            callback();
-        }
-    }
-
-    function metaPixelPageViewEland(callback) {
+//meta Pixel start
+    function metaPixelPageView(pixelId, callback) {
         var MetaPixelEland = !function (f, b, e, v, n, t, s) {
             if (f.fbq) return;
             n = f.fbq = function () {
@@ -1055,8 +945,8 @@ function sendMetaGooglePageView(allowGAMeta, fbpCookieValue) {
             'https://connect.facebook.net/en_US/fbevents.js');
 
 
-        fbq('init', 110966102104942, {'external_id': edmpUuid});
-        fbq('trackSingle', '110966102104942', 'PageView');
+        fbq('init', pixelId, {'external_id': edmpUuid});
+        fbq('trackSingle', pixelId.toString(), 'PageView');
 
         if (typeof callback === 'function') {
             callback();
