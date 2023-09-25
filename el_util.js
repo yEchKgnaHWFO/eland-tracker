@@ -844,7 +844,7 @@ ElandTracker.ClickforceSendData = function (trackingJson) {
 }
 
 function sendMetaGooglePageView(allowGAMeta) {
-    var domain = document.domain;
+    var currentURL = window.location.href;
     var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw",
         "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw",
         "volkswagen.com.tw", "nestlebaby.com.tw", "chailease.com.tw", "taishinbank.com.tw", "zztaitung.com", "ebank.megabank.com.tw",
@@ -853,9 +853,9 @@ function sendMetaGooglePageView(allowGAMeta) {
         "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com",
         "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw",
         "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com", "saime.com", "homeshop.taipei",
-        "soloneshop.com.tw", "easyshop.com.tw , id-az.com.tw"]
+        "soloneshop.com.tw", "easyshop.com.tw","lat=","lng=" ]
     var isBlacklisted = blackList.some(function (v) {
-        return domain.includes(v);
+        return currentURL.includes(v);
     });
 
     if (!isBlacklisted && allowGAMeta !== 0) {
