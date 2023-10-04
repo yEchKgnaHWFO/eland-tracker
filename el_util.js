@@ -853,7 +853,7 @@ function sendMetaGooglePageView(allowGAMeta) {
         "tw.memebox.com", "lulus.tw", "shop.hengstyle.com", "timberland.com.tw", "freshdays-shop.com", "miniqueen.tw", "tw.istayreal.com",
         "anns.tw", "brashop.modemarie.com.tw", "store-philips.tw", "store.2ndstreet.com.tw", "w-ch.com.tw",
         "beautywa.tw", "armarpot.com", "mollifix.com", "eurohaus.com.tw", "cathaybk.com", "saime.com", "homeshop.taipei",
-        "soloneshop.com.tw", "easyshop.com.tw","lat=","lng=" ]
+        "soloneshop.com.tw", "easyshop.com.tw", "lat=", "lng="]
     var isBlacklisted = blackList.some(function (v) {
         return currentURL.includes(v);
     });
@@ -925,6 +925,7 @@ function sendMetaGooglePageView(allowGAMeta) {
 
 //meta Pixel start
     function metaPixelPageView(pixelId, callback) {
+        var currentUrl = window.location.href;
         var MetaPixelEland = !function (f, b, e, v, n, t, s) {
             if (f.fbq) return;
             n = f.fbq = function () {
@@ -943,11 +944,10 @@ function sendMetaGooglePageView(allowGAMeta) {
             s.parentNode.insertBefore(t, s)
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-
-
-        fbq('init', pixelId, {'external_id': edmpUuid});
-        fbq('trackSingle', pixelId.toString(), 'PageView');
-
+        if (currentUrl.indexOf("lat") < 0 && currentUrl.indexOf("lng") < 0) {
+            fbq('init', pixelId, {'external_id': edmpUuid});
+            fbq('trackSingle', pixelId.toString(), 'PageView');
+        }
         if (typeof callback === 'function') {
             callback();
         }
