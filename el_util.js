@@ -549,7 +549,12 @@ ElandTracker.sendData = function (trackingJson) {
     } catch (e) {
         allowGAMeta = 1;
     }
-    sendMetaGooglePageView(allowGAMeta);
+
+    //getEID
+    var edmpUuid = getEid();
+    //Set First party cookies
+    setOrUpdateCookies(edmpUuid);
+    sendMetaGooglePageView(allowGAMeta, edmpUuid);
 
     var iframeUrl = ElandTracker.getIframeUrl(trackingJson);
     var iframeElement = ElandTracker.getIframe(iframeUrl);
@@ -843,7 +848,7 @@ ElandTracker.ClickforceSendData = function (trackingJson) {
     return document.body.appendChild(iframeElement);
 }
 
-function sendMetaGooglePageView(allowGAMeta) {
+function sendMetaGooglePageView(allowGAMeta, edmpUuid) {
     var currentURL = window.location.href;
     var blackList = ["ipickup.com.tw", "cigna.com.tw", "toyota.com.tw", "taitung.gov.tw", "mercedes-me.tw", "feib.com.tw",
         "appbankee.com.tw", "cathay-ins.com.tw", "w3.bobe.com.tw", "kgibank.com.tw", "acerland.acer.com.tw", "mazda.com.tw",
@@ -859,39 +864,13 @@ function sendMetaGooglePageView(allowGAMeta) {
     });
 
     if (!isBlacklisted && allowGAMeta !== 0) {
-        var edmpUuid = "";
-        //異步執行，將meta/ga放入getEdpUUid內
-        getEdmpUuid().then(function (result) {
-            edmpUuid = result.edmpUuid;
-            googleAdsPageView('AW-10965005594'); //91App
-            googleAdsPageView('AW-1002649313'); //FunTime
-            googleAdsPageView('AW-10837221747'); //eland
-            metaPixelPageView(677954962557395); //partner
-            metaPixelPageView(1905757936321278); //FunTime
-            metaPixelPageView(640155001270959); //91App
-            metaPixelPageView(110966102104942); //eland
-        });
-
-        //getElandId
-        function getEdmpUuid() {
-            var currentUrl = window.location.href;
-            var params = new URLSearchParams();
-            params.append('url', currentUrl);
-            return fetch('https://dmp.eland-tech.com/dmpreceiver/getEdmpUuid?' + params.toString(), {
-                credentials: 'include'
-            })
-                .then(function (response) {
-                    return response.json();
-                })
-                .then(function (data) {
-                    edmpUuid = data.edmp_uuid;
-                    return {
-                        edmpUuid: edmpUuid
-                    };
-                });
-        }
-
-        //end getElandId
+        googleAdsPageView('AW-10965005594'); //91App
+        googleAdsPageView('AW-1002649313'); //FunTime
+        googleAdsPageView('AW-10837221747'); //eland
+        metaPixelPageView(677954962557395); //partner
+        metaPixelPageView(1905757936321278); //FunTime
+        metaPixelPageView(640155001270959); //91App
+        metaPixelPageView(110966102104942); //eland
     }
 
 //google tag start
@@ -954,6 +933,36 @@ function sendMetaGooglePageView(allowGAMeta) {
     }
 }
 
+
+function getEid() {
+    var edmpUuid = getCookieValue("edmp_uuid");
+    if (edmpUuid === "") {
+        getEdmpUuid().then(function (result) {
+            edmpUuid = result.edmpUuid;
+        });
+    }
+    return edmpUuid;
+}
+
+
+function getEdmpUuid() {
+    var currentUrl = window.location.href;
+    var params = new URLSearchParams();
+    params.append('url', currentUrl);
+    return fetch('https://dmp.eland-tech.com/dmpreceiver/getEdmpUuid?' + params.toString(), {
+        credentials: 'include'
+    })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            edmpUuid = data.edmp_uuid;
+            return {
+                edmpUuid: edmpUuid
+            };
+        });
+}
+
 //meta Pixel end
 function getCookieValue(cookieName) {
     var cookieValue = "";
@@ -972,3 +981,61 @@ function getCookieValue(cookieName) {
     return cookieValue;
 }
 
+//setCookie 共用方法 傳入cookieName 、 value 、 days
+function setCookie(cookieName, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = cookieName + "=" + value + expires + "; path=/";
+}
+
+function setOrUpdateCookies(edmpUuid) {
+    var expireDate = 365;
+    var elandCookies = ['edmp_uuid', 'opt_out', 'raised_hand_gm', 'raised_hand_cm', 'raised_hand_ttd', 'raised_hand_yh'];
+
+    var cookies = document.cookie.split(";"); // 將所有的Cookie拆分為陣列
+    var existingCookies = {}; //已存在的CookieValue
+    //時間複雜度 O(m + n)
+    // exist cookies Value to existingCookies[]
+    for (var j = 0; j < cookies.length; j++) {
+        var cookie = cookies[j].trim();
+        var indexOfEqual = cookie.indexOf('=');
+        var cookieName = cookie.substring(0, indexOfEqual);
+        var cookieValue = cookie.substring(indexOfEqual + 1, cookie.length);
+        existingCookies[cookieName] = cookieValue;
+    }
+
+    // 遍歷 cookieNames，檢查是否存在於物件中。如果不存在則寫入新值，存在則更新時間
+    for (var i = 0; i < elandCookies.length; i++) {
+        var cookieName = elandCookies[i].trim();
+        // 不存在相同的 cookie Name，寫入新值
+        if (!existingCookies[cookieName]) {
+            //uuid and timestamp is pair
+            if (cookieName === 'edmp_uuid') {
+                setCookie(cookieName, edmpUuid, expireDate);
+                setCookie('edmp_timestamp', Date.now(), expireDate);
+            } else if (cookieName === 'opt_out') { // opt_out:是否排除追蹤， 預設0追蹤
+                setCookie(cookieName, 0, expireDate);
+            } else {
+                //raised_hand_
+                setRaiseHandCookie(cookieName);
+            }
+        } else { //update
+            if (!cookieName.startsWith("raised_hand_")) {
+                //不是 raised_hand_ ，則更新365天
+                setCookie(cookieName, existingCookies[cookieName], expireDate);
+            }
+        }
+    }
+
+    //cookie mapping
+    function setRaiseHandCookie(cookieName) {
+        var raiseHand = "1";
+        var randomHour = Math.floor(Math.random() * 11) + 4; // (4~14) hours
+        var maxAgeDays = randomHour / 24; // hour to days
+        setCookie(cookieName, raiseHand, maxAgeDays);
+    }
+}
