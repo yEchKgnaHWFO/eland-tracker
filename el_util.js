@@ -549,7 +549,6 @@ ElandTracker.sendData = function (trackingJson) {
     } catch (e) {
         allowGAMeta = 1;
     }
-
     //getEID
     var edmpUuid = getEid();
     //Set First party cookies
@@ -933,18 +932,30 @@ function sendMetaGooglePageView(allowGAMeta, edmpUuid) {
     }
 }
 
-
+/**
+ * 1. get Eid from cookie
+ * 2. if Eid="" get Eig from API (JAVA後端如果沒有EID也會生成一個新的UUID，三方失效後可以考慮拔掉)
+ * 3. if Eid="" get Eid from function
+ * @returns {string}
+ */
 function getEid() {
     var edmpUuid = getCookieValue("edmp_uuid");
-    if (edmpUuid === "") {
+    if (edmpUuid.trim() === "") {
         getEdmpUuid().then(function (result) {
             edmpUuid = result.edmpUuid;
         });
+
+    }
+    if (edmpUuid.trim() === "") {
+        edmpUuid = generateUUID();
     }
     return edmpUuid;
 }
 
-
+/**
+ * getEid from API
+ * @returns {Promise<{edmpUuid: *}>}
+ */
 function getEdmpUuid() {
     var currentUrl = window.location.href;
     var params = new URLSearchParams();
@@ -1038,4 +1049,14 @@ function setOrUpdateCookies(edmpUuid) {
         var maxAgeDays = randomHour / 24; // hour to days
         setCookie(cookieName, raiseHand, maxAgeDays);
     }
+}
+
+function generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
+    });
+    return uuid.replace(/-/g, "");
 }
