@@ -1,8 +1,8 @@
 var ElandTracker = ElandTracker || {};
 
 ElandTracker.options = {
-    "elandTracker": "//cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.58/",
-    "elandReceiver": "//dmp.eland-tech.com/dmpreceiver/",
+    "elandTracker": "https://cdn.jsdelivr.net/gh/yEchKgnaHWFO/eland-tracker@4.7/",
+    "elandReceiver": "https://dmp.eland-tech.com/dmpreceiver/",
     "useJsdelivrToLoadJS": true,
     "useFingerprint": false
 };
@@ -162,7 +162,7 @@ function stfpjs(newUrl, zif) {
 
 // 啟動cookie transfer接口，沒有啟動會不交換cookie接口
 function cookie_mapping(target_url) {
-    var t = "//dmp.eland-tech.com/dmpreceiver/cookie_transfer.jsp?target=" + target_url;
+    var t = "https://dmp.eland-tech.com/dmpreceiver/cookie_transfer.jsp?target=" + target_url;
     var c = document.createElement("iframe");
     c.src = t;
     c.setAttribute('style', 'display:none');

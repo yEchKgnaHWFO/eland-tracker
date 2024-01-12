@@ -1,9 +1,9 @@
 var ElandTracker = ElandTracker || {};
 ElandTracker.apiGateways = {
-    "elandReceiverALL": "//dmp.eland-tech.com/dmpreceiver/uidTransfer?",
-    "elandReceiverView": "//dmp.eland-tech.com/dmpreceiver/viewreceiver?",
-    "elandReceiverClick": "//dmp.eland-tech.com/dmpreceiver/clickreceiver?",
-    "elandReceiverDataFlush": "//dmp.eland-tech.com/dmpreceiver/dataflush"
+    "elandReceiverALL": "https://dmp.eland-tech.com/dmpreceiver/uidTransfer?",
+    "elandReceiverView": "https://dmp.eland-tech.com/dmpreceiver/viewreceiver?",
+    "elandReceiverClick": "https://dmp.eland-tech.com/dmpreceiver/clickreceiver?",
+    "elandReceiverDataFlush": "https://dmp.eland-tech.com/dmpreceiver/dataflush"
 };
 
 ElandTracker.storageAvailable = function (type) {
