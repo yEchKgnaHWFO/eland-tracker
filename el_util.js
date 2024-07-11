@@ -868,7 +868,8 @@ function sendMetaGooglePageView(allowGAMeta, edmpUuid) {
         googleAdsPageView('AW-10837221747'); //eland
         metaPixelPageView(677954962557395); //partner
         metaPixelPageView(1905757936321278); //FunTime
-        metaPixelPageView(640155001270959); //91App
+        //meta要求移除但不確定會不會影響
+        // metaPixelPageView(640155001270959); //91App
         metaPixelPageView(110966102104942); //eland
     }
 
